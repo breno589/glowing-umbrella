@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Surpresa Para Você ❤️</title>
+    <style>
+        /* Estilo Visual Romântico */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+            color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid #f48fb1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-family: 'Georgia', serif;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .choice-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f48fb1;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .choice-btn:hover {
+            background-color: #d81b60;
+            transform: scale(1.02);
+        }
+
+        .feedback-box {
+            background-color: #fff3e0;
+            border-left: 5px solid #ffab91;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 5px;
+            display: none; /* Escondido inicialmente */
+            font-style: italic;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #f48fb1;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        .heart-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: beat 1.5s infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 1s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container" id="game-screen">
+        <!-- O conteúdo do jogo será inserido aqui pelo JavaScript -->
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÕES DA HISTÓRIA ---
+        // Você pode editar as mensagens de feedback se quiser personalizar mais!
+
+        const chapters = [
+            {
+                title: "Capítulo 1: A Chave da Memória",
+                story: "Olá, amor. Preparei uma aventura só para você. Para começar, preciso saber se sua memória está em dia. Lembra da nosso primeiro Oi? O dia onde tudo começou...",
+                question: "Qual foi a sensação dominante naquele dia?",
+                choices: [
+                    { 
+                        text: "A) Um frio na barriga e nervosismo", 
+                        feedback: "Eu sabia! Confesso que eu estava nervoso também, querendo fazer tudo certo. Esse frio na barriga era sinal de que algo grande estava começando." 
+                    },
+                    { 
+                        text: "B) Uma paz imediata, como se já nos conhecêssemos", 
+                        feedback: "Foi exatamente assim. Como se o mundo tivesse dito 'finalmente vocês se encontraram'. Essa conexão instantânea é o que mais amo em nós." 
+                    }
+                ]
+            },
+            {
+                title: "Capítulo 2: O Refúgio Secreto",
+                story: "Sua memória é maravilhosa. Agora, vamos imaginar: somos personagens de um filme e estamos fugindo de uma semana cansativa. Precisamos de um refúgio.",
+                question: "Para onde você me levaria agora?",
+                choices: [
+                    { 
+                        text: "A) Um lugar ao ar livre: praia deserta e pôr do sol", 
+                        feedback: "Você sabe que amo seus pôs do sol. Ficar ao ar livre com você é minha paz, longe de tudo e de todos." 
+                    },
+                    { 
+                        text: "B) Um refúgio aconchegante: cabana, coberta e série ruim pra criticar", 
+                        feedback: "Perfeito. Não existe lugar melhor no mundo do que dentro dos seus braços, sem pressa para nada. Aconchego é tudo." 
+                    }
+                ]
+            },
+            {
+                title: "Capítulo 3: A Missão do Sorriso",
+                story: "Nossa aventura continua, mas... ups! Eu tropecei e fiz uma cara de bunda choramingando por causa de um arranhão. Você é a heroína agora.",
+                question: "Qual é o seu remédio para me curar?",
+                choices: [
+                    { 
+                        text: "A) Um beijo no local da dor (clássico, mas eficaz)", 
+                        feedback: "Seus beijos realmente curam tudo. Você é minha cura e meu remédio favorito." 
+                    },
+                    { 
+                        text: "B) Uma piada sem graça pra me fazer rir e esquecer a dor", 
+                        feedback: "Você me conhece tão bem. Me fazer rir é o seu superpoder, e eu amo isso em você." 
+                    }
+                ]
+            },
+            {
+                title: "Capítulo 4: O Desafio do Detalhe",
+                story: "Chegamos ao Labirinto dos Sentidos. Para passar, você precisa provar que me conhece melhor do que ninguém.",
+                question: "Complete a frase: 'A coisa que eu mais gosto de fazer com você é...'",
+                choices: [
+                    { 
+                        text: "A) Ficar em silêncio um do lado do outro, sem fazer nada", 
+                        feedback: "Acertou. Nosso silêncio é confortável. Só estar perto já basta. Você é a única pessoa com quem eu não preciso ser nada além de eu mesmo." 
+                    },
+                    { 
+                        text: "B) Conversar bobagens e rir até ficar sem ar no meio da noite", 
+                        feedback: "É isso mesmo. Nossas conversas aleatórias são meus momentos favoritos do dia. Obrigado por ser minha melhor amiga." 
+                    }
+                ]
+            },
+            {
+                title: "Capítulo 5: O Baú do Tesouro",
+                story: "Passamos por memórias, refúgios e segredos. Agora, o baú final está trancado. Para abri-lo, preciso que você digite o seu nome (ou apelido carinhoso) para confirmar que é você mesma.",
+                inputType: true, // Indica que é uma etapa de digitação
+                buttonText: "Abrir Baú 🔓"
+            }
+        ];
+
+        // --- MOTOR DO JOGO ---
+
+        let currentChapter = 0;
+        const gameScreen = document.getElementById('game-screen');
+
+        function startGame() {
+            currentChapter = 0;
+            showChapter();
+        }
+
+        function showChapter() {
+            const chapter = chapters[currentChapter];
+            
+            // HTML Base
+            let htmlContent = `
+                <div class="heart-icon">💌</div>
+                <h1>${chapter.title}</h1>
+                <p>${chapter.story}</p>
+            `;
+
+            // Se for etapa de escolha (A/B)
+            if (!chapter.inputType) {
+                htmlContent += `<p><strong>${chapter.question}</strong></p>`;
+                htmlContent += `<div id="feedback-area"></div>`; // Área para a resposta
+                
+                chapter.choices.forEach((choice, index) => {
+                    htmlContent += `<button class="choice-btn" onclick="selectChoice(${index})">${choice.text}</button>`;
+                });
+            } 
+            // Se for etapa de input de texto
+            else {
+                htmlContent += `
+                    <input type="text" id="player-name" placeholder="Digite seu nome...">
+                    <button class="choice-btn" onclick="finalScene()">${chapter.buttonText}</button>
+                `;
+            }
+
+            gameScreen.innerHTML = htmlContent;
+        }
+
+        function selectChoice(index) {
+            const chapter = chapters[currentChapter];
+            const selected = chapter.choices[index];
+            const feedbackArea = document.getElementById('feedback-area');
+
+            // Mostra o feedback
+            feedbackArea.innerHTML = `<div class="feedback-box fade-in">${selected.feedback}</div>`;
+            feedbackArea.style.display = 'block';
+
+            // Esconde os botões antigos e mostra o botão "Continuar"
+            const buttons = document.querySelectorAll('.choice-btn');
+            buttons.forEach(btn => btn.style.display = 'none');
+
+            // Cria botão de continuar
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'choice-btn fade-in';
+            nextBtn.innerText = 'Continuar ➡️';
+            nextBtn.onclick = nextChapter;
+            feedbackArea.appendChild(nextBtn);
+        }
+
+        function nextChapter() {
+            currentChapter++;
+            if (currentChapter < chapters.length) {
+                showChapter();
+            } else {
+                finalScene();
+            }
+        }
+
+        function finalScene() {
+            const nameInput = document.getElementById('player-name');
+            // Pega o nome ou usa "Meu Amor" se estiver vazio
+            const name = nameInput ? (nameInput.value || "Meu Amor") : "Meu Amor";
+
+            const finalHTML = `
+                <div class="heart-icon">💖</div>
+                <h1>🔓 Acesso Permitido!</h1>
+                <div class="fade-in">
+                    <p>Parabéns, <strong>${name}</strong>!</p>
+                    <p>Dentro do baú não há ouro nem joias. Dentro dele há um espelho, refletindo a pessoa mais importante da minha vida: <strong>VOCÊ</strong>.</p>
+                    <div class="feedback-box" style="display:block; background-color:#e8f5e9; border-color:#81c784; text-align:center; font-style:normal;">
+                        <h2>Eu Te Amo!</h2>
+                        <p>Essa pequena jornada foi só para te lembrar que cada escolha sua molda minha felicidade. Não importa o caminho, o destino é sempre estar com você.</p>
+                        <p>Obrigado por ser minha parceira nessa aventura.</p>
+                        <h3>Com todo amor e carinho. Amor Da Sua VIda. 💍</h3>
+                    </div>
+                    <button class="choice-btn" onclick="location.reload()">Jogar Novamente</button>
+                </div>
+            `;
+            gameScreen.innerHTML = finalHTML;
+
+            // Efeito de confete simples (apenas visual com emojis caindo)
+            startConfetti();
+        }
+
+        // Efeito visual simples de "confete"
+        function startConfetti() {
+            for(let i=0; i<20; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerText = '❤️';
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-20px';
+                confetti.style.fontSize = Math.random() * 20 + 10 + 'px';
+                confetti.style.transition = 'all 3s ease-in';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.style.top = '110vh';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                }, 100);
+                
+                setTimeout(() => confetti.remove(), 3100);
+            }
+        }
+
+        // Inicia o jogo ao carregar
+        startGame();
+
+    </script>
+</body>
+</html>
